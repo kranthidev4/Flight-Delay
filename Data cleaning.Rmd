@@ -52,5 +52,5 @@ FilteredFD <- FDnew[, !(colnames(FDnew) %in% c("Year", "DayofMonth", "TailNum", 
 
 
 ```{r}
- FilteredFD <- FilteredD[FilteredD$DepTime != '0' & FilteredD$ArrTime != '0',]
+ FilteredFD <- FilteredFD[FilteredFD$DepTime != '0' & FilteredFD$ArrTime != '0',]
 ```
