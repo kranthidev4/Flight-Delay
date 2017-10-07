@@ -1,25 +1,23 @@
+```{r}
 # Flight-Delay
 library(readr)
 DelayedFlights <- read_csv("C:/Users/MASTER/Desktop/DelayedFlights.csv")
 View(DelayedFlights)
-#
+```
+```{r}
 #Data inspection
 str(DelayedFlights)
 summary(DelayedFlights)
-#
+```
+```{r}
 #Data conversion 
 FD<-DelayedFlights
 FD$DayOfWeek = as.factor(FD$DayOfWeek)
-
 levels(FD$DayOfWeek) = c("Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday", "Sunday")
 ```
-
 ```{r}
 FD$Month = as.factor(x = FD$Month)
-
-
 levels(FD$Month) = c("Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
-
 ```
 
 ```{r}
@@ -29,15 +27,9 @@ FD$CancellationCode[FD$CancellationCode == 'C'] = 'NAS'
 FD$CancellationCode[FD$CancellationCode == 'D'] = 'Security'
 
 ```
-
-
 ```{r}
 FilteredF <- FD[, !(colnames(FD) %in% c("X1","FlightNo","ActualElapsedTime","CRSElapsedTime","AirTime", "TaxiIn", "TaxiOut","CRSArrTime", "CRSDepTime","Cancelled", "Diverted"))]
-
-
 ```
-
-
 ```{r}
 FilteredF[c("CarrierDelay", "WeatherDelay", "NASDelay", "SecurityDelay", "LateAircraftDelay")][is.na(FilteredF[c("CarrierDelay", "WeatherDelay", "NASDelay", "SecurityDelay","LateAircraftDelay")])] <- 0
 ```
@@ -51,7 +43,6 @@ library(dplyr)
 FDnew <- mutate(FD, DepDelL = ifelse(DepDelay>0, 1, 0),  ArrDelL = ifelse(ArrDelay>0, 1, 0),LateAircraft = ifelse(LateAircraftDelay>0, 1, 0))
 
 ```
-
 
 ```{r}
 FilteredFD <- FDnew[, !(colnames(FDnew) %in% c("Year", "DayofMonth", "TailNum", "ArrDelay", "DepDelay", "Cancelled", "Diverted", "CarrierDelay", "WeatherDelay", "NASDelay", "SecurityDelay", "LateAircraftDelay"))]
