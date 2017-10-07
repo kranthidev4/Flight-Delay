@@ -1,0 +1,8 @@
+
+FD %>% group_by(DayOfWeek) %>% 
+tally %>% arrange(desc(n))
+
+FD %>% group_by(Month) %>% 
+    tally %>% arrange(desc(n))
+    
+    
