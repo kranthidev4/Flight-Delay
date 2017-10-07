@@ -39,6 +39,7 @@ FilteredF[c("CarrierDelay", "WeatherDelay", "NASDelay", "SecurityDelay", "LateAi
 FD<-na.omit(FilteredF)
 
 ```
+```{r}
 library(dplyr)
 FDnew <- mutate(FD, DepDelL = ifelse(DepDelay>0, 1, 0),  ArrDelL = ifelse(ArrDelay>0, 1, 0),LateAircraft = ifelse(LateAircraftDelay>0, 1, 0))
 
