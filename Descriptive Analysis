@@ -1,9 +1,14 @@
-
+#
 FD %>% group_by(DayOfWeek) %>% 
 tally %>% arrange(desc(n))
 
+#
 FD %>% group_by(Month) %>% 
     tally %>% arrange(desc(n))
+ 
+#To interpret the top destinations
+FD %>% group_by(Dest) %>%
+  tally %>% arrange(desc(n))
     
     #Daily Arrival delay
     total_Daily_ArrDly <- tapply(FD$ArrDelay, FD$DayOfWeek, sum)
