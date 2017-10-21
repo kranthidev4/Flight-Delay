@@ -1,0 +1,52 @@
+flights_v01['Delayed'] <- ifelse(flights_v01['ArrDelay'] > 20, 1,0)
+flights_v01$Delayed = factor(flights_v01$Delayed)
+levels(flights_v01$Delayed)=c("No","Yes")
+str(flights_v01)
+
+#Converting 1/0 to Yes/No
+#flights_v01['Delayed'] <- factor(flights_v01['Delayed'], labels =c(0, 1),levels = c("no","yes"))
+
+#Save cleaned data to flightDelayed.csv
+write.csv(flights_v01,"flightDelayed.csv",row.names =FALSE, quote=FALSE)
+library(caret)
+library(kernlab)
+library(e1071)
+library(ggplot2)
+
+flights <- read_csv("C:/Users/MASTER/Desktop/flightDelayed.csv")
+flights <-flights[sample(nrow(flights),5000),]
+
+
+set.seed(100)
+control <- trainControl(method="cv", number=12)
+metric <- "Accuracy"
+
+#data partition Train 80% and Test 20%
+index <- createDataPartition(flights$Delayed, p = 0.80, list = FALSE)
+test <- flights[-index, ]
+train <- flights[index, ]
+str(train)
+train$Delayed<-as.factor(train$Delayed)
+levels(train$Delayed)<-c("no","yes")
+test$Delayed<-as.factor(test$Delayed)
+levels(test$Delayed)<-c("no","yes")
+
+##NaiveBAyes
+model.naiveBayes <- naiveBayes(Delayed~., data=train, metric=metric, trControl=control)
+
+# predict on the test data
+prediction.NB <- predict(model.naiveBayes, test)
+
+#Calculating the Accuracy
+confusionMatrix(prediction.NB, test$Delayed)
+
+#Linear Regression
+l_model = lm(ArrDelay ~DepDelay+TaxiIn , data=train)
+l_model2 = lm(ArrDelay ~DepDelay+TaxiIn+SecurityDelay , data=train)
+predict <- predict(l_model3,test)
+l_model3 = lm(ArrDelay ~DepDelay+TaxiIn+SecurityDelay+DayOfWeek , data=train)
+summary(l_model3)
+print(anova(l_model1,l_model2,l_model3))
+prediction <- predict(l_model3,test)
+Delayed <- ifelse(prediction<20,0,1)
+confusionMatrix(Delayed,test$Delayed1)
