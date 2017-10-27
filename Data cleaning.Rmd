@@ -40,17 +40,8 @@ FD<-na.omit(FilteredF)
 
 ```
 ```{r}
-library(dplyr)
-FDnew <- mutate(FD, DepDelL = ifelse(DepDelay>0, 1, 0),  ArrDelL = ifelse(ArrDelay>0, 1, 0),LateAircraft = ifelse(LateAircraftDelay>0, 1, 0))
-
-```
-
-```{r}
-FilteredFD <- FDnew[, !(colnames(FDnew) %in% c("Year", "DayofMonth", "TailNum", "ArrDelay", "DepDelay", "Cancelled", "Diverted", "CarrierDelay", "WeatherDelay", "NASDelay", "SecurityDelay", "LateAircraftDelay"))]
-
-```
-
-
-```{r}
- FilteredFD <- FilteredFD[FilteredFD$DepTime != '0' & FilteredFD$ArrTime != '0',]
+flights_v01['Delayed'] <- ifelse(flights_v01['ArrDelay'] > 20, 1,0)
+flights_v01$Delayed = as.factor(flights_v01$Delayed)
+levels(flights_v01$Delayed)=c("No","Yes")
+write.csv(flights_v01,"flightDelayed.csv",row.names =FALSE, quote=FALSE)
 ```
