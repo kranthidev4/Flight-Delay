@@ -1,4 +1,6 @@
 #
+
+FD1<-flights_v01
 FD %>% group_by(DayOfWeek) %>% 
 tally %>% arrange(desc(n))
 
@@ -11,12 +13,12 @@ FD %>% group_by(Dest) %>%
   tally %>% arrange(desc(n))
     
     #Daily Arrival delay
-    total_Daily_ArrDly <- tapply(FD$ArrDelay, FD$DayOfWeek, sum)
+    total_Daily_ArrDly <- tapply(FD1$ArrDelay, FD1$DayOfWeek, sum)
     barplot(total_Daily_ArrDly/1000, las=2,col = "Darkblue",main = "Total Daily Arrival Delay",
     xlab = "Week Days", ylab = "Total Arrival Delay in  Min", ylim = c(0,50000))
     
     #Daily Departure delay
-    total_Daily_DepDly <- tapply(FD$DepDelay, FD$DayOfWeek, sum)
+    total_Daily_DepDly <- tapply(FD1$DepDelay, FD1$DayOfWeek, sum)
     barplot(total_Daily_DepDly/1000, las = 2, col = "Blue",main = "Total Daily Departure Delay",
     xlab = "Week Days", ylab = "Total Departure Delay in  Min", ylim = c(0,50000))
     
@@ -26,31 +28,31 @@ FD %>% group_by(Dest) %>%
     xlab = "Week Days", ylab = "Total Delay in  Min", ylim = c(0,50000))
     
     #Arrival Delay by carrier
-    Arr_Dly_carr <- (tail(sort(tapply(FD$ArrDelay, FD$UniqueCarrier, sum)),20))
+    Arr_Dly_carr <- (tail(sort(tapply(FD1$ArrDelay, FD1$UniqueCarrier, sum)),20))
     barplot(Arr_Dly_carr/1000, las = 2, col = "navyblue",
         main = "Total Arrival Delay by Carrier",
         xlab = "Carrier", ylab = "Total Arrival Delay in Min", ylim = c(0,45000))
         
      #Departure Delay by carrier
-     Dep_Dly_carr <- (tail(sort(tapply(FD$DepDelay, FD$UniqueCarrier, sum)),20))
+     Dep_Dly_carr <- (tail(sort(tapply(FD1$DepDelay, FD1$UniqueCarrier, sum)),20))
      barplot(Dep_Dly_carr/1000, las = 2, col = "blue",
         main = "Total Departure Delay by Carrier",
         xlab = "Carrier", ylab = "Total Departure Delay in Min", ylim = c(0,45000))
         
       #Total Delay by carrier
-      total_Dly <- (tail(sort(tapply(FD$DepDelay, FD$UniqueCarrier, sum) + tapply(FD$ArrDelay, FD$UniqueCarrier, sum)),20))
+      total_Dly <- (tail(sort(tapply(FD1$DepDelay, FD1$UniqueCarrier, sum) + tapply(FD1$ArrDelay, FD1$UniqueCarrier, sum)),20))
       barplot(total_Dly/1000, las = 2, col = "lightblue",
         main = "Total Delay by Carrier",
         xlab = "Carrier", ylab = "Total Delay in Min", ylim = c(0,45000))
         
      #Arrival Delay by month
-     monthly_ArrDly <- tapply(FD$ArrDelay, FD$Month, sum)
+     monthly_ArrDly <- tapply(FD1$ArrDelay, FD1$Month, sum)
      barplot(monthly_ArrDly/1000, lwd = 2, col = "blue",
         main = "Total Monthly Arrival Delay",
         xlab = "Months", ylab = "Total Arrival Delay in Min", ylim = c(0, 40000))
     
     #Departure Delay by month
-     monthly_DepDly <- tapply(FD$DepDelay, FD$Month, sum)
+     monthly_DepDly <- tapply(FD1$DepDelay, FD1$Month, sum)
      barplot(monthly_DepDly/1000, lwd = 2, col = "blue",
         main = "Total Monthly Departure Delay",
         xlab = "Months", ylab = "Total Departure Delay in Min", ylim = c(0, 40000))
@@ -60,5 +62,10 @@ FD %>% group_by(Dest) %>%
     barplot(total_monthly_Dly/1000, lwd = 2, col = "lightblue",
         main = "Total Monthly Delay",
         xlab = "Months", ylab = "Total Delay in Min", ylim = c(0, 40000))
+        
+     #Number of flights per month
+     No_Flght_Mnth<-FD1 %>% group_by(Month)%>% tally %>% arrange(desc(n))
+     print(No_Flght_Mnth)
+     plot(No_Flght_Mnth,las=2)
     
     
