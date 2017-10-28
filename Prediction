@@ -47,3 +47,12 @@ print(anova(l_model1,l_model2,l_model3,l_model4,l_model5))
 prediction <- predict(l_model3,test)
 Delayed <- ifelse(prediction<20,0,1)
 confusionMatrix(Delayed,test$Delayed1)
+
+#SVM
+model.svm <- train(Delayed~., data=train, method="svmRadial", metric=metric, trControl=control)
+
+# We will now predict on the test data
+prediction.svm <- predict(model.svm, test)
+
+#Calculating the Accuracy
+confusionMatrix(prediction.svm, test$Delayed)
