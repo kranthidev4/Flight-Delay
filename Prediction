@@ -51,7 +51,7 @@ confusionMatrix(Delayed,test$Delayed1)
 #SVM
 model.svm <- train(Delayed~., data=train, method="svmRadial", metric=metric, trControl=control)
 
-# We will now predict on the test data
+# Predict on the test data
 prediction.svm <- predict(model.svm, test)
 
 #Calculating the Accuracy
