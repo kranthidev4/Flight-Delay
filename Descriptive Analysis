@@ -64,9 +64,9 @@ FD %>% group_by(Dest) %>%
         xlab = "Months", ylab = "Total Delay in Min", ylim = c(0, 40000))
         
      #Number of flights per month
-     No_Flght_Mnth<-FD1 %>% group_by(Month)%>% tally %>% arrange(desc(n))
-     print(No_Flght_Mnth)
-     plot(No_Flght_Mnth,las=2)
+     #No_Flght_Mnth<-FD1 %>% group_by(Month)%>% tally %>% arrange(desc(n))
+     #print(No_Flght_Mnth)
+     #plot(No_Flght_Mnth,las=2)
      
 #per month
 
