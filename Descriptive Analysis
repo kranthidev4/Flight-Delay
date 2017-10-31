@@ -72,7 +72,7 @@ FD %>% group_by(Dest) %>%
 
 Flght_Mnth <- count(FD1$Month)
 print(Flght_Mnth)
-plot(Flght_Mnth$x,Flght_Mnth$freq/1000, col = "Red",
+plot(Flght_Mnth$x,Flght_Mnth$freq/1000,
      main = "Number of Flights per Month", xlab = "Month", 
      ylab = "Frequency ", ylim = c(0, 1270))
 
@@ -83,7 +83,7 @@ print(total_MNTly_Dly_Min)
 
 Flght_Day <- count(FD1$DayOfWeek)
 print(Flght_Day)
-plot(Flght_Day$x, Flght_Day$freq/1000, col = "Red",
+plot(Flght_Day$x, Flght_Day$freq/1000,
      main = "Number of Flights per Day", xlab = "Weekday", 
      ylab = "Frequency ", ylim = c(0, 2080))
 
@@ -93,7 +93,7 @@ print(total_DYLY_Dly_Min)
 #per carrier
 Flght_Car <- count(FD1$UniqueCarrier)
 print(Flght_Car)
-plot(Flght_Car$x, Flght_Car$freq/1000, col = "Red",
+plot(Flght_Car$x, Flght_Car$freq/1000,
      main = "Number of Flights per Carrier", xlab = "Carrier", 
      ylab = "Frequency ")
 
