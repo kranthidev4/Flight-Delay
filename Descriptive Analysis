@@ -12,63 +12,87 @@ FD %>% group_by(Month) %>%
 FD %>% group_by(Dest) %>%
   tally %>% arrange(desc(n))
     
-    #Daily Arrival delay
-    total_Daily_ArrDly <- tapply(FD1$ArrDelay, FD1$DayOfWeek, sum)
-    barplot(total_Daily_ArrDly/1000, las=2,col = "Darkblue",main = "Total Daily Arrival Delay",
-    xlab = "Week Days", ylab = "Total Arrival Delay in  Min", ylim = c(0,50000))
+    #Daily Arrival delay in minutes
+    Daily_ArrDly <- tapply(FD1$ArrDelay, FD1$DayOfWeek, sum)
+    barplot(Daily_ArrDly/1000, las=2,col = "Darkblue",main = " Daily Arrival Delay",
+    xlab = "Week Days", ylab = " Arrival Delay in  Min", ylim = c(0,50000))
     
-    #Daily Departure delay
-    total_Daily_DepDly <- tapply(FD1$DepDelay, FD1$DayOfWeek, sum)
-    barplot(total_Daily_DepDly/1000, las = 2, col = "Blue",main = "Total Daily Departure Delay",
-    xlab = "Week Days", ylab = "Total Departure Delay in  Min", ylim = c(0,50000))
+    #Daily Departure delay in minutes
+    Daily_DepDly <- tapply(FD1$DepDelay, FD1$DayOfWeek, sum)
+    barplot(Daily_DepDly/1000, las = 2, col = "Blue",main = "Daily Departure Delay",
+    xlab = "Week Days", ylab = "Departure Delay in  Min", ylim = c(0,50000))
     
-    #Total Daily delay
-    total_Daily_Dly <- total_Daily_ArrDly + total_Daily_DepDly
-    barplot(total_Daily_Dly/1000, las = 2, col = "Lightblue",main = "Total Daily Delay",
-    xlab = "Week Days", ylab = "Total Delay in  Min", ylim = c(0,50000))
+    #Daily delay in minutes
+    Daily_Dly <- Daily_ArrDly + Daily_DepDly
+    barplot(Daily_Dly/1000, las = 2, col = "Lightblue",main = "Daily Delay",
+    xlab = "Week Days", ylab = "Delay in  Min", ylim = c(0,50000))
     
-    #Arrival Delay by carrier
+    # Delay per day
+     Flght_Day <- count(FD1$DayOfWeek)
+     print(Flght_Day)
+     plot(Flght_Day$x, Flght_Day$freq/1000,las =2,
+     main = "Number of Flights per Day", xlab = "Weekday",las=2, 
+     ylab = "Frequency ", ylim =c(0,2030))
+     
+     total_DYLY_Dly_Min <- (Daily_Dly /Flght_Day$freq) #total min/flight delays per Weekday#
+     print(total_DYLY_Dly_Min)
+     barplot(total_DYLY_Dly_Min, las = 2, col = "Blue",main = "Daily Delay per flight", xlab = "Week Days", 
+     ylab = "Total  Delay ", ylim = c(0,200))
+    
+    #Arrival Delay by carrier in minutes
     Arr_Dly_carr <- (tail(sort(tapply(FD1$ArrDelay, FD1$UniqueCarrier, sum)),20))
     barplot(Arr_Dly_carr/1000, las = 2, col = "navyblue",
         main = "Total Arrival Delay by Carrier",
-        xlab = "Carrier", ylab = "Total Arrival Delay in Min", ylim = c(0,45000))
+        xlab = "Carrier", ylab = "Arrival Delay in Min", ylim = c(0,45000))
         
-     #Departure Delay by carrier
+     #Departure Delay by carrierin minutes
      Dep_Dly_carr <- (tail(sort(tapply(FD1$DepDelay, FD1$UniqueCarrier, sum)),20))
      barplot(Dep_Dly_carr/1000, las = 2, col = "blue",
         main = "Total Departure Delay by Carrier",
-        xlab = "Carrier", ylab = "Total Departure Delay in Min", ylim = c(0,45000))
+        xlab = "Carrier", ylab = "Departure Delay in Min", ylim = c(0,45000))
         
-      #Total Delay by carrier
+      #Delay by carrier in minutes
       total_Dly <- (tail(sort(tapply(FD1$DepDelay, FD1$UniqueCarrier, sum) + tapply(FD1$ArrDelay, FD1$UniqueCarrier, sum)),20))
       barplot(total_Dly/1000, las = 2, col = "lightblue",
         main = "Total Delay by Carrier",
         xlab = "Carrier", ylab = "Total Delay in Min", ylim = c(0,45000))
         
-     #Arrival Delay by month
+     #Delay Per Carrier
+  
+     Flght_Car <- count(FD1$UniqueCarrier)
+     print(Flght_Car)
+     plot(Flght_Car$x, Flght_Car$freq/1000,
+     main = "Number of Flights per Carrier", xlab = "Carrier", las = 2,
+     ylab = "Frequency ",ylim = c(0,2080))
+
+     total_Dly <- as.numeric(total_Dly)
+     total_Car_Dly_Min <- total_Dly / Flght_Car$freq #total min/flight delays per Carrier#
+     barplot(total_Car_Dly_Min, las = 2, col = "Blue",main = "Delay per carrier", xlab = "Carrier", ylab = "Total Delay", ylim = c(0,3000))
+        
+     #Arrival Delay by month in minutes
      monthly_ArrDly <- tapply(FD1$ArrDelay, FD1$Month, sum)
      barplot(monthly_ArrDly/1000, lwd = 2, col = "blue",
         main = "Total Monthly Arrival Delay",
-        xlab = "Months", ylab = "Total Arrival Delay in Min", ylim = c(0, 40000))
+        xlab = "Months", ylab = "Arrival Delay in Min", ylim = c(0, 40000))
     
-    #Departure Delay by month
+    #Departure Delay by month in minutes
      monthly_DepDly <- tapply(FD1$DepDelay, FD1$Month, sum)
      barplot(monthly_DepDly/1000, lwd = 2, col = "blue",
         main = "Total Monthly Departure Delay",
-        xlab = "Months", ylab = "Total Departure Delay in Min", ylim = c(0, 40000))
+        xlab = "Months", ylab = "Departure Delay in Min", ylim = c(0, 40000))
      
     #Total Delay by month
     total_monthly_Dly <-monthly_ArrDly + monthly_DepDly
     barplot(total_monthly_Dly/1000, lwd = 2, col = "lightblue",
         main = "Total Monthly Delay",
-        xlab = "Months", ylab = "Total Delay in Min", ylim = c(0, 40000))
+        xlab = "Months", ylab = "Delay in Min", ylim = c(0, 40000))
         
      #Number of flights per month
      #No_Flght_Mnth<-FD1 %>% group_by(Month)%>% tally %>% arrange(desc(n))
      #print(No_Flght_Mnth)
      #plot(No_Flght_Mnth,las=2)
      
-#per month
+#Delay per month
 
 Flght_Mnth <- count(FD1$Month)
 print(Flght_Mnth)
@@ -79,29 +103,6 @@ plot(Flght_Mnth$x,Flght_Mnth$freq/1000,
 total_MNTly_Dly_Min <- ( total_monthly_Dly/ Flght_Mnth$freq) #----total min/flight delays per month----#
 print(total_MNTly_Dly_Min)
 
-#per day
-
-Flght_Day <- count(FD1$DayOfWeek)
-print(Flght_Day)
-plot(Flght_Day$x, Flght_Day$freq/1000,
-     main = "Number of Flights per Day", xlab = "Weekday", 
-     ylab = "Frequency ", ylim = c(0, 2080))
-
-total_DYLY_Dly_Min <- (total_Daily_Dly /Flght_Day$freq) #-----total min/flight delays per Weekday-----#
-print(total_DYLY_Dly_Min)
-
-#per carrier
-Flght_Car <- count(FD1$UniqueCarrier)
-print(Flght_Car)
-plot(Flght_Car$x, Flght_Car$freq/1000,
-     main = "Number of Flights per Carrier", xlab = "Carrier", 
-     ylab = "Frequency ")
-
-total_Car_Dly_Min <- total_Dly / Flght_Car$freq #-----total min/flight delays per Carrier-------#
-str(total_Car_Dly_Min)
-str(total_Dly)
-print(total_Car_Dly_Min)
-print(total_Dly)
 
 #--- The most Influential Delay factor ---#
 
