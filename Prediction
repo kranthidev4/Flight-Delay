@@ -61,7 +61,7 @@ confusionMatrix(prediction.svm, test$Delayed)
 
 model.knn <- train(Delayed~., data=train, method="knn", metric=metric, trControl=control)
 
-# We will now predict on the test data
+#  predict on the test data
 prediction.knn <- predict(model.knn, test)
 #Calculating the Accuracy
 confusionMatrix(prediction.knn, test$Delayed)
