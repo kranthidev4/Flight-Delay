@@ -28,10 +28,10 @@ FD$CancellationCode[FD$CancellationCode == 'D'] = 'Security'
 
 ```
 ```{r}
-FilteredF <- FD[, !(colnames(FD) %in% c("X1","FlightNo","ActualElapsedTime","CRSElapsedTime","AirTime", "TaxiIn", "TaxiOut","CRSArrTime", "CRSDepTime","Cancelled", "Diverted"))]
+#FilteredF <- FD[, !(colnames(FD) %in% c("X1","FlightNo","ActualElapsedTime","CRSElapsedTime","AirTime", "TaxiIn", #"TaxiOut","CRSArrTime", "CRSDepTime","Cancelled", "Diverted"))]
 ```
 ```{r}
-FilteredF[c("CarrierDelay", "WeatherDelay", "NASDelay", "SecurityDelay", "LateAircraftDelay")][is.na(FilteredF[c("CarrierDelay", "WeatherDelay", "NASDelay", "SecurityDelay","LateAircraftDelay")])] <- 0
+#FilteredF[c("CarrierDelay", "WeatherDelay", "NASDelay", "SecurityDelay", "LateAircraftDelay")][is.na(FilteredF[c("CarrierDelay", #"WeatherDelay", "NASDelay", "SecurityDelay","LateAircraftDelay")])] <- 0
 ```
 
 ```{r}
