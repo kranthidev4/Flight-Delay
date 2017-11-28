@@ -46,7 +46,7 @@ l_model5 = lm(ArrDelay ~DepDelay+TaxiIn+Distance , data=train)
 print(anova(l_model1,l_model2,l_model3,l_model4,l_model5))
 prediction <- predict(l_model3,test)
 Delayed <- ifelse(prediction<20,0,1)
-confusionMatrix(Delayed,test$Delayed1)
+confusionMatrix(Delayed,test$Delayed)
 
 #SVM
 model.svm <- train(Delayed~., data=train, method="svmRadial", metric=metric, trControl=control)
